@@ -1,15 +1,15 @@
 package model;
 
-public class Tour extends AbstractPieces {
+public class Roi extends AbstractPieces {
 	
-	public Tour(Couleur couleur_de_piece, Coord coord){
+	public Roi(Couleur couleur_de_piece, Coord coord){
 		super(couleur_de_piece,coord);
 	}
 	
 	public boolean specific(int xFinal, int yFinal){
 		return (
-				((this.coord.x==xFinal) && (this.coord.y!=yFinal)) || 
-				((this.coord.x!=xFinal) && (this.coord.y==yFinal))); //
+				(Math.abs(this.coord.x-xFinal)==1) || 
+				(Math.abs(this.coord.y-yFinal)==1) ); 
 		}
 
 	@Override

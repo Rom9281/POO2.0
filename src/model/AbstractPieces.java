@@ -5,7 +5,7 @@ public abstract class AbstractPieces implements Pieces {
 	
 	protected Coord coord;
 	protected String nomPiece;
-	private Couleur couleur;
+	protected Couleur couleur;
 	
 	/**
 	 * Constructeurs
@@ -28,7 +28,7 @@ public abstract class AbstractPieces implements Pieces {
 	
 	@Override
 	public String toString() {
-		return "Nom : ; X : "+this.coord.x+"; Y : "+this.coord.y+" ";
+		return "Nom : "+this.getClass().getSimpleName()+" ; X : "+this.coord.x+" ; Y : "+this.coord.y+" ; Couleur : "+this.getCouleur();
 	}
 	
 	public int getX(){
@@ -43,15 +43,22 @@ public abstract class AbstractPieces implements Pieces {
 		return couleur;
 	}
 	
-	public boolean onBoard(int xFinal, int yFinal){
-		return false;
+	
+	private static boolean checkCoord(int xFinal, int yFinal){
+		return true;
 	}
 	
+	abstract protected boolean specific(int xFinal, int yFinal);
+	
+	public boolean isMoveOk(int xFinal, int yFinal){
+		return checkCoord(xFinal, yFinal) && specific(xFinal, yFinal);
+		
+	}
 	
 	public boolean move(int xFinal, int yFinal){
 		boolean ret = false;
 		
-		if(this.isMoveOk(xFinal, yFinal)){
+		if(this.isMoveOk(xFinal, yFinal)){ // TODO : la methode on board est telechargé pour tout les utilisateurs
 			this.coord.x = xFinal;
 			this.coord.y = yFinal;
 			ret = true;
@@ -60,8 +67,16 @@ public abstract class AbstractPieces implements Pieces {
 	}
 	
 	public static void main(String argv[]){
-		Tour tour = new Tour(Couleur.BLANC, new Coord(0,0));
-		System.out.println(tour.toString());
+		Pion piece = new Pion(Couleur.NOIR, new Coord(7,7));
+		System.out.println(piece.toString());
+		piece.move(7, 6);
+		System.out.println(piece.toString());
+		piece.move(7,7);
+		System.out.println(piece.toString());
+		piece.move(3, 4);
+		System.out.println(piece.toString());
+		piece.move(0, 2);
+		System.out.println(piece.toString());
 		
 	}
 
