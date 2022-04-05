@@ -23,6 +23,30 @@ public class Jeu {
 		return retString;
 	}
 	
+	public boolean isMoveOk(int xInit, int yInit, int xFinal, int yFinal){
+		boolean ret = false;
+		
+		if(isPieceHere(xInit,yInit)){ // Si il y a une piece : necessaire car find piece part du principe qu'il y a une piece
+			Pieces piece = findPieces(xInit, yInit); // trouver la piece
+			ret = piece.isMoveOk(xFinal, yFinal); // retourner la piece
+		}
+		return ret;
+	}
+	
+	public boolean move(int xInit, int yInit, int xFinal, int yFinal)
+	{
+		boolean ret = false;
+		
+		if(this.isMoveOk(xInit, yInit, xFinal, yFinal))
+		{
+			Pieces pieces = findPieces(xInit, yInit); // recupere la piece
+			pieces.move(xFinal, yFinal); // bouger la piece
+			ret = true; // valider
+		}
+		
+		return ret;
+	}
+	
 	private Pieces findPieces(int x, int y) {
 		
 		for (Pieces piece : listePieces) {
@@ -32,6 +56,14 @@ public class Jeu {
 		}
 		
 		return null;
+	}
+	
+	public boolean capture(int xCatch,int yCatch)
+	{
+		// TODO : code l'aspect capture du jeu
+		boolean ret = false;
+		
+		return ret;
 	}
 	
 	public boolean isPieceHere(int x,int y){
