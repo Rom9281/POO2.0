@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+import controler.controlerLocal.ChessGameControler;
 import model.Coord;
 import model.Couleur;
 import tools.ChessImageProvider;
@@ -15,53 +16,62 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
   JLayeredPane layeredPane;
   JPanel chessBoard;
   JLabel chessPiece;
+  
   int xAdjustment;
   int yAdjustment;
+  
+  ChessGameControler controller;
  
-  public ChessGameGUI(){
-  Dimension boardSize = new Dimension(600, 600);
- 
-  //  Use a Layered Pane for this this application
- layeredPane = new JLayeredPane();
-  getContentPane().add(layeredPane);
-  layeredPane.setPreferredSize(boardSize);
-  layeredPane.addMouseListener(this);
-  layeredPane.addMouseMotionListener(this);
-
-  //Add a chess board to the Layered Pane 
- 
-  chessBoard = new JPanel();
-  layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
-  chessBoard.setLayout( new GridLayout(8, 8) );
-  chessBoard.setPreferredSize( boardSize );
-  chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
- 
-  for (int i = 0; i < 64; i++) {
-  JPanel square = new JPanel( new BorderLayout() );
-  chessBoard.add( square );
- 
-  int row = (i / 8) % 2;
-  if (row == 0)
-  square.setBackground( i % 2 == 0 ? Color.blue : Color.white );
-  else
-  square.setBackground( i % 2 == 0 ? Color.white : Color.blue );
-  }
- 
-  //Add a few pieces to the board
- 
-  for (int i = 0; i < ChessPiecePos.values().length; i++) {
-
-      Couleur pieceCouleur = ChessPiecePos.values()[i].couleur;
-
-      for (int j = 0; j < (ChessPiecePos.values()[i].coords).length; j++) {
-                String className = ChessPiecePos.values()[i].nom;     // attention au chemin
-                Coord pieceCoord = ChessPiecePos.values()[i].coords[j];
-                JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile(className, pieceCouleur)) );
-                JPanel panel = (JPanel)chessBoard.getComponent(pieceCoord.x + pieceCoord.y*8);
-                panel.add(piece); 
-                }
-      }
-  }
+  public ChessGameGUI()
+  {
+	  Dimension boardSize = new Dimension(600, 600);
+	 
+	  //  Use a Layered Pane for this this application
+	 layeredPane = new JLayeredPane();
+	  getContentPane().add(layeredPane);
+	  layeredPane.setPreferredSize(boardSize);
+	  layeredPane.addMouseListener(this);
+	  layeredPane.addMouseMotionListener(this);
+	
+	  //Add a chess board to the Layered Pane 
+	 
+	  chessBoard = new JPanel();
+	  layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
+	  chessBoard.setLayout( new GridLayout(8, 8) );
+	  chessBoard.setPreferredSize( boardSize );
+	  chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
+	 
+	  for (int i = 0; i < 64; i++) 
+	  {
+		  JPanel square = new JPanel( new BorderLayout() );
+		  chessBoard.add( square );
+	 
+		  int row = (i / 8) % 2;
+		  if (row == 0)
+			  square.setBackground( i % 2 == 0 ? Color.blue : Color.white );
+		  else
+			  square.setBackground( i % 2 == 0 ? Color.white : Color.blue );
+		}
+	 
+	  //Add a few pieces to the board
+	 
+	  for (int i = 0; i < ChessPiecePos.values().length; i++) 
+	  {
+	
+	      Couleur pieceCouleur = ChessPiecePos.values()[i].couleur;
+	
+	      for (int j = 0; j < (ChessPiecePos.values()[i].coords).length; j++) 
+	      {
+	                String className = ChessPiecePos.values()[i].nom;     // attention au chemin
+	                Coord pieceCoord = ChessPiecePos.values()[i].coords[j];
+	                JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile(className, pieceCouleur)) );
+	                JPanel panel = (JPanel)chessBoard.getComponent(pieceCoord.x + pieceCoord.y*8);
+	                panel.add(piece); 
+	      }
+	    }
+	  
+	  controller = new ChessGameControler(this.chessGame)
+	  }
  
   public void mousePressed(MouseEvent e){
   chessPiece = null;

@@ -1,5 +1,8 @@
 package model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Echiquier implements BoardGames{
 	private Jeu jeu_blanc;
 	private Jeu jeu_noir;
@@ -43,6 +46,19 @@ public class Echiquier implements BoardGames{
 		
 		return ret;
 	}
+	
+	/**
+	 * Recuperer l'ensemble des pieces IHM sur l'echequier.
+	 * */
+	public List<PieceIHM> getPiecesIHM(){
+		List<PieceIHM> list = new LinkedList<PieceIHM>();  // Creation de la liste
+		
+		list.addAll(this.jeu_courant.getPiecesIHM()); // Ajout des pieces IHM de la liste courante
+		list.addAll(this.jeu_attente.getPiecesIHM()); // Ajout des pieces IHM de la liste en attente
+		
+		return list;
+		
+	}
 
 	@Override
 	public boolean isEnd() {
@@ -79,7 +95,10 @@ public class Echiquier implements BoardGames{
 		System.out.println(echiquier.move(0,6,0,7));
 	}
 	
-	private void switchJoueur() 
+	/**
+	 * Permet d'échanger le jeu actif
+	 * */
+	public void switchJoueur() 
 	{
 		if(jeu_courant==jeu_blanc) {
 			jeu_courant=jeu_noir;

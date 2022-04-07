@@ -26,7 +26,7 @@ public class ChessGameControler extends AbstractChessGameControler {
 	 */
 	@Override
 	public boolean isPlayerOK(Coord initCoord) {
-		// ToDo
+		return (this.chessGame.getPieceColor(initCoord.x, initCoord.y) == this.chessGame.getColorCurrentPlayer());
 	}
 	
 	/* (non-Javadoc)
@@ -35,8 +35,7 @@ public class ChessGameControler extends AbstractChessGameControler {
 	 * Pas d'action supplémentaire dans un contrôleur local en fin de move
 	 */
 	@Override
-	protected void endMove(Coord initCoord, Coord finalCoord,
-			String promotionType) {
+	protected void endMove(Coord initCoord, Coord finalCoord,String promotionType) {
 		
 	}
 
