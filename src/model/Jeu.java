@@ -70,6 +70,23 @@ public class Jeu {
 		return (this.findPieces(x, y) != null);
 	}
 	
+	/**
+	 * Obtenir la couleur de la piece si elle est au coord données
+	 * @param x : coord x de la piece
+	 * @param y : coord y de la piece
+	 * @return couleur : la couleur de la piece ou null si n'est pas la
+	 * */
+	public Couleur getPieceColor(int x, int y) {
+		
+		Couleur ret = null;
+		
+		if(isPieceHere(x,y)){ // Si il y a une piece : necessaire car find piece part du principe qu'il y a une piece
+			Pieces piece = findPieces(x,y); // trouver la piece
+			ret = piece.getCouleur();
+		}
+		return ret;
+	}
+	
 	public List<PieceIHM> getPiecesIHM(){               
 		PieceIHM newPieceIHM = null;               
 		List<PieceIHM> list = new LinkedList<PieceIHM>(); 

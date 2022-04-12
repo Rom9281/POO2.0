@@ -19,6 +19,7 @@ import model.Echiquier;
  * (DP Proxy, Facade, Observer)
  *
  */
+
 public class ChessGame extends Observable implements BoardGames{
 
 	private Echiquier echiquier;
@@ -88,6 +89,7 @@ public class ChessGame extends Observable implements BoardGames{
 	public Couleur getPieceColor(int x, int y){
 		return echiquier.getPieceColor(x, y);
 	}
+	
 
 	
 
