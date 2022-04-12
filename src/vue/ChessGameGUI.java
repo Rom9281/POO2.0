@@ -3,37 +3,48 @@ package vue;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import java.util.List;
+
 import javax.swing.*;
 
+import controler.ChessGameControlers;
 import controler.controlerLocal.ChessGameControler;
 import model.Coord;
 import model.Couleur;
+import model.PieceIHM;
 import model.observable.ChessGame;
 import tools.ChessImageProvider;
 import tools.ChessPiecePos;
 
  
 public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener {
-  JLayeredPane layeredPane;
-  JPanel chessBoard;
-  JLabel chessPiece;
+	JPanel chessBoard;
+	JLabel chessPiece;
+	Container parent_container;
+	JLayeredPane layeredPane;
   
-  ChessGame chess_game;
+  private ChessGameControlers chess_game_controler;
   
-  int xAdjustment;
-  int yAdjustment;
+  private int xAdjustment;
+  private int yAdjustment;
   
-  ChessGameControler controller;
+  private Coord init_coord;
  
-  public ChessGameGUI()
+  public ChessGameGUI(String name,ChessGameControlers controler, Dimension boardSize)
   {
-	  chess_game = new ChessGame(); // Vue observe le model
+	  // TODO : faire le board size
+	  // TODO : faire le name
+	  this.chess_game_controler = controler;
 	  
-	  Dimension boardSize = new Dimension(600, 600);
+	  init_coord = new Coord(0,0);
+	  
+	  //Dimension boardSize = new Dimension(600, 600);
 	 
 	  //  Use a Layered Pane for this this application
 	  layeredPane = new JLayeredPane();
+	  
 	  getContentPane().add(layeredPane);
+	  
 	  layeredPane.setPreferredSize(boardSize);
 	  layeredPane.addMouseListener(this);
 	  layeredPane.addMouseMotionListener(this);
@@ -73,24 +84,25 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	                panel.add(piece); 
 	      }
 	    }
-	  
-	  controller = new ChessGameControler(this.chess_game);
 	  }
  
   public void mousePressed(MouseEvent e)
   {
-	  System.out.println("Pressed");
 	  chessPiece = null;
+	  
 	  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
+	  
+	  this.parent_container = c.getParent();
 	 
 	  if (c instanceof JPanel) {return;}
 	  
 	  Point parentLocation = c.getParent().getLocation();
+	  // chess_game.getColorCurrentPlayer() != chess_game.getPieceColor(parentLocation.x/75, parentLocation.y/75)
 	  
-	  System.out.println(chess_game.getColorCurrentPlayer());
-	  System.out.println(chess_game.getPieceColor(parentLocation.x/75, parentLocation.y/75));
+	  this.init_coord = new Coord(parentLocation.x/75, parentLocation.y/75);
 	  
-	  if(chess_game.getColorCurrentPlayer() != chess_game.getPieceColor(parentLocation.x/75, parentLocation.y/75)) 
+	  // Is player ok demande un coord et non un point... c'est assez contre intuitif
+	  if(!chess_game_controler.isPlayerOK(this.init_coord)) 
 	  {
 		  System.out.println("Wrong piece");
 		  return;
@@ -122,22 +134,33 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 	  if(chessPiece == null) return;
 	 
 	  chessPiece.setVisible(false);
+	  
 	  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
 	  
 	  Point parentLocation = c.getParent().getLocation();
-	 
-	  if (c instanceof JLabel){
-		  Container parent = c.getParent();
+	  
+	  chess_game_controler = (ChessGameControler) chess_game_controler;
+	  
+	  if(chess_game_controler.move(this.init_coord, new Coord(c.getX()/75, c.getY()/75))) {
+		  if (c instanceof JLabel){
+			  Container parent = c.getParent();
+			  
+			  parent.remove(0);
+			  parent.add( chessPiece );
+		  }
+		  else {
+			  Container parent = (Container)c;
+			  parent.add( chessPiece );
+		  }
 		  
-		  parent.remove(0);
-		  parent.add( chessPiece );
 	  }
-	  else {
-		  Container parent = (Container)c;
-		  parent.add( chessPiece );
+	  else 
+	  {
+		  this.parent_container.add( chessPiece );
 	  }
-	 
+	  
 	  chessPiece.setVisible(true);
+	  
   }
  
   public void mouseClicked(MouseEvent e) {
@@ -151,13 +174,53 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
   public void mouseExited(MouseEvent e) {
   
   }
- 
-  public static void main(String[] args) {
-  JFrame frame = new ChessGameGUI();
+  
+  public void update(Observable arg0, Object arg1) {
+
+		List<PieceIHM> piecesIHM = (List<PieceIHM>) arg1;
+		
+		for(PieceIHM pieceIHM : piecesIHM) {
+			
+		}
+		/*
+
+		//String[][] damier = new String[8][8];
+		
+		// création d'un tableau 2D avec les noms des pièces
+		for(PieceIHM pieceIHM : piecesIHM) {
+
+			Couleur color = pieceIHM.getCouleur();
+			
+			Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
+			
+			for(Coord coord : pieceIHM.getList()) {
+				damier[coord.y][coord.x] = stColor + type;
+			}			
+		}
+		
+		System.out.println(st);	
+		*/	
+	}
+	
+}
+
+ /*
+  public static void main(String[] args) 
+  {
+	  
+  ChessGame model;
+  ChessGameControler controler;
+  
+  model = new ChessGame();	
+  controler = new ChessGameControler(model);
+  
+  JFrame frame = new ChessGameGUI(controler);
+  
   frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE );
   frame.pack();
   frame.setResizable(true);
   frame.setLocationRelativeTo( null );
   frame.setVisible(true);
  }
-}
+
+*/

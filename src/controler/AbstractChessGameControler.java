@@ -35,6 +35,13 @@ public abstract class AbstractChessGameControler implements ChessGameControlers 
 	 */
 
 	final public boolean move(Coord initCoord, Coord finalCoord) {
+		/*
+		System.out.println("INIT");
+		System.out.println(initCoord);
+		System.out.println("END");
+		System.out.println(finalCoord);
+		*/
+		
 		boolean ret = false;
 		String promotionType = null; 
 

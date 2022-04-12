@@ -62,10 +62,14 @@ public class ChessGame extends Observable implements BoardGames{
 		boolean ret = false; 
 
 		ret = echiquier.isMoveOk(xInit, yInit, xFinal, yFinal);
+		
+		System.out.println("MOVE");
+		
 		if (ret){
 			ret = echiquier.move(xInit, yInit, xFinal, yFinal);
 		}
 		if (ret){
+			
 			echiquier.switchJoueur();
 		}		
 		
@@ -89,9 +93,6 @@ public class ChessGame extends Observable implements BoardGames{
 	public Couleur getPieceColor(int x, int y){
 		return echiquier.getPieceColor(x, y);
 	}
-	
-
-	
 
 	/* (non-Javadoc)
 	 * @see java.util.Observable#notifyObservers(java.lang.Object)
