@@ -51,10 +51,16 @@ public abstract class AbstractPieces implements Pieces {
 	abstract protected boolean specific(int xFinal, int yFinal);
 	
 	public boolean isMoveOk(int xFinal, int yFinal){
-		return checkCoord(xFinal, yFinal) && specific(xFinal, yFinal);
 		
+		return  ( checkCoord(xFinal, yFinal) && specific(xFinal, yFinal) ) || 
+				( (xFinal==-1) && (yFinal==-1) )  ||
+				( ! ( (this.coord.x==-1) && (this.coord.y==-1) ) );
+		// permet le deplacement de la piece capturé si ses coordonnes ne sont pas deja a -1 -1
 	}
 	
+	/**
+	 * Permet le mouvement d'une piece
+	 */
 	public boolean move(int xFinal, int yFinal){
 		boolean ret = false;
 		
@@ -64,6 +70,14 @@ public abstract class AbstractPieces implements Pieces {
 			ret = true;
 		}
 		return ret;
+	}
+	
+	/**
+	 * 
+	 * */
+	public boolean capture()
+	{
+		return this.move(-1,-1);
 	}
 	
 	public static void main(String argv[]){

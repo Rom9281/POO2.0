@@ -7,10 +7,12 @@ import tools.ChessPiecesFactory;
 public class Jeu {
 	private Couleur couleur;
 	private List<Pieces> listePieces;
+	private boolean castling;
 	
 	public Jeu(Couleur couleur) {
 		this.couleur = couleur;
 		this.listePieces = ChessPiecesFactory.newPieces(couleur);
+		this.castling = false;
 	}
 	
 	public String toString(){
@@ -58,6 +60,9 @@ public class Jeu {
 		return null;
 	}
 	
+	/**
+	 * Permet la capture d'un pion
+	 * */
 	public boolean capture(int xCatch,int yCatch)
 	{
 		// TODO : code l'aspect capture du jeu
@@ -87,6 +92,39 @@ public class Jeu {
 		return ret;
 	}
 	
+	/**
+	 * Recupere la position du roi dans le jeu
+	 * */
+	public Coord getKingCoord() 
+	{
+		
+		for (Pieces piece : listePieces)  // parcours le jeu
+		{
+			if(piece.getClass().getSimpleName()=="Roi") {return new Coord(piece.getX(),piece.getY());} // si il y a un roi, retourner ses coordonnées
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Permet la promotion du pion
+	 * TODO : Arriver a changer le type de l'objet.
+	 * */
+	public boolean pawnPromotion(int xFinal,int yfinal,java.lang.String type) 
+	{
+		Pieces piece = this.findPieces(xFinal,yfinal);
+		
+		if(piece!=null) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Recuperer la liste des pieces sous forme de PiecesIHM
+	 * @return
+	 */
 	public List<PieceIHM> getPiecesIHM(){               
 		PieceIHM newPieceIHM = null;               
 		List<PieceIHM> list = new LinkedList<PieceIHM>(); 
