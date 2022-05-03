@@ -17,7 +17,7 @@ import tools.ChessImageProvider;
 import tools.ChessPiecePos;
 
  
-public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener {
+public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener, Observer {
 	private JPanel chessBoard;
 	private JLabel chessPiece;
 	private Container parent_container;
@@ -171,10 +171,16 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 
 		List<PieceIHM> piecesIHM = (List<PieceIHM>) arg1;
 		
+		System.out.println(piecesIHM);
+		
 		for(PieceIHM pieceIHM : piecesIHM) {
-            JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile(pieceIHM.getTypePiece(), pieceIHM.getCouleur())) );
-            JPanel panel = (JPanel)chessBoard.getComponent(pieceIHM.get + pieceCoord.y*8);
-            panel.add(piece); 
+			for(Coord coord : pieceIHM.getList()) {
+				 JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile(pieceIHM.getTypePiece(), pieceIHM.getCouleur())) );
+		         JPanel panel = (JPanel)chessBoard.getComponent(coord.x + coord.y*8);
+		            //panel.add(piece); 
+				
+			}
+           
 			
 		}
 		/*
