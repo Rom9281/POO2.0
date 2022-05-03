@@ -43,13 +43,23 @@ public abstract class AbstractPieces implements Pieces {
 		return couleur;
 	}
 	
-	
+	/**
+	 * Permet de verifier que le mouvement se finit bien sur l'echiquier
+	 * */
 	private static boolean checkCoord(int xFinal, int yFinal){
-		return true;
+		return (xFinal>=0)&&(xFinal<8)&&
+				(yFinal>=0)&&(yFinal<8);
 	}
 	
+	/**
+	 * Classe abstraite spécifique aux enfants
+	 * */
 	abstract protected boolean specific(int xFinal, int yFinal);
 	
+	/**
+	 * Verifie que toutes les conditions sont respectés pour le mouvement
+	 * Permet également la capture
+	 * */
 	public boolean isMoveOk(int xFinal, int yFinal){
 		
 		return  ( checkCoord(xFinal, yFinal) && specific(xFinal, yFinal) ) || 

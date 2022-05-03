@@ -61,9 +61,13 @@ public class Echiquier implements BoardGames{
 	}
 
 	@Override
+	/**
+	 * Revois vrai si le roi à été capturé.
+	 * */
 	public boolean isEnd() {
-		// TODO Auto-generated method stub
-		return false;
+		Coord comp = new Coord(-1,-1);
+		
+		return (jeu_courant.getKingCoord()==comp);
 	}
 
 	@Override

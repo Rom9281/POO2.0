@@ -61,12 +61,18 @@ public class Jeu {
 	}
 	
 	/**
-	 * Permet la capture d'un pion
+	 * Permet la capture d'un pion si celui-ci existe
 	 * */
 	public boolean capture(int xCatch,int yCatch)
 	{
-		// TODO : code l'aspect capture du jeu
 		boolean ret = false;
+		
+		// TODO : code l'aspect capture du jeu
+		Pieces piece = this.findPieces(xCatch, yCatch);
+		if(piece!=null) {
+			piece.capture();
+			ret = true;
+		}
 		
 		return ret;
 	}
@@ -115,6 +121,7 @@ public class Jeu {
 		Pieces piece = this.findPieces(xFinal,yfinal);
 		
 		if(piece!=null) {
+			// T0D0 : Soit caster selon le type, soit utiliser une solution plus jolie
 			return true;
 		}
 		

@@ -18,60 +18,52 @@ import tools.ChessPiecePos;
 
  
 public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionListener {
-	JPanel chessBoard;
-	JLabel chessPiece;
-	Container parent_container;
-	JLayeredPane layeredPane;
+	private JPanel chessBoard;
+	private JLabel chessPiece;
+	private Container parent_container;
+	private JLayeredPane layeredPane;
   
-  private ChessGameControlers chess_game_controler;
-  
-  private int xAdjustment;
-  private int yAdjustment;
-  
-  private Coord init_coord;
- 
-  public ChessGameGUI(String name,ChessGameControlers controler, Dimension boardSize)
-  {
-	  // TODO : faire le board size
-	  // TODO : faire le name
-	  this.chess_game_controler = controler;
-	  
-	  init_coord = new Coord(0,0);
-	  
-	  //Dimension boardSize = new Dimension(600, 600);
-	 
-	  //  Use a Layered Pane for this this application
-	  layeredPane = new JLayeredPane();
-	  
-	  getContentPane().add(layeredPane);
-	  
-	  layeredPane.setPreferredSize(boardSize);
-	  layeredPane.addMouseListener(this);
-	  layeredPane.addMouseMotionListener(this);
+	private ChessGameControlers chess_game_controler;
+	private int xAdjustment;
+	private int yAdjustment;
+	private Coord init_coord;
 	
-	  //   Add a chess board to the Layered Pane 
-	  chessBoard = new JPanel();
-	  layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
-	  chessBoard.setLayout( new GridLayout(8, 8) );
-	  chessBoard.setPreferredSize( boardSize );
-	  chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
-	 
-	  for (int i = 0; i < 64; i++) 
+	public ChessGameGUI(String name,ChessGameControlers controler, Dimension boardSize)
 	  {
-		  JPanel square = new JPanel( new BorderLayout() );
-		  chessBoard.add( square );
-	 
-		  int row = (i / 8) % 2;
-		  if (row == 0)
-			  square.setBackground( i % 2 == 0 ? Color.blue : Color.white );
-		  else
-			  square.setBackground( i % 2 == 0 ? Color.white : Color.blue );
-		}
-	 
-	  //Add a few pieces to the board
-	 
-	  for (int i = 0; i < ChessPiecePos.values().length; i++) 
-	  {
+		// TODO : faire le board size
+		// TODO : faire le name
+		this.chess_game_controler = controler;
+		init_coord = new Coord(0,0);
+		
+		//  Use a Layered Pane for this this application
+		layeredPane = new JLayeredPane();
+		
+		getContentPane().add(layeredPane);
+		layeredPane.setPreferredSize(boardSize);
+		layeredPane.addMouseListener(this);
+		layeredPane.addMouseMotionListener(this);
+		
+		//   Add a chess board to the Layered Pane 
+		chessBoard = new JPanel();
+		layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
+		chessBoard.setLayout( new GridLayout(8, 8) );
+		chessBoard.setPreferredSize( boardSize );
+		chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
+		
+		for (int i = 0; i < 64; i++) 
+		{
+			JPanel square = new JPanel( new BorderLayout() );
+			chessBoard.add( square );
+			int row = (i / 8) % 2;
+			if (row == 0)
+				square.setBackground( i % 2 == 0 ? Color.blue : Color.white );
+			else
+				square.setBackground( i % 2 == 0 ? Color.white : Color.blue );
+			}
+		
+		//Add a few pieces to the board
+		for (int i = 0; i < ChessPiecePos.values().length; i++) 
+		{
 	
 	      Couleur pieceCouleur = ChessPiecePos.values()[i].couleur;
 	
@@ -180,6 +172,9 @@ public class ChessGameGUI extends JFrame implements MouseListener, MouseMotionLi
 		List<PieceIHM> piecesIHM = (List<PieceIHM>) arg1;
 		
 		for(PieceIHM pieceIHM : piecesIHM) {
+            JLabel piece = new JLabel( new ImageIcon(ChessImageProvider.getImageFile(pieceIHM.getTypePiece(), pieceIHM.getCouleur())) );
+            JPanel panel = (JPanel)chessBoard.getComponent(pieceIHM.get + pieceCoord.y*8);
+            panel.add(piece); 
 			
 		}
 		/*
